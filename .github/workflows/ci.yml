@@ -39,6 +39,6 @@ jobs:
         run: flutter build apk
 
       # 6. iOS 빌드 (macOS에서만 실행)
-      - name: Build iOS app
+      - name: Build iOS app (simulator)
         if: matrix.os == 'macos-latest'
-        run: flutter build ios
+        run: flutter build ios --simulator
