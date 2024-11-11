@@ -1,8 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Flutter CI
 
 on:
@@ -13,8 +8,12 @@ on:
 
 jobs:
   build:
-    # 사용할 운영체제 (Ubuntu 기반 사용)
-    runs-on: ubuntu-latest
+    # macOS와 Ubuntu 환경을 분리하여 설정
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       # 1. 리포지토리 코드 체크아웃
@@ -37,8 +36,9 @@ jobs:
 
       # 5. Android 빌드 (APK)
       - name: Build Android APK
-        run: flutter build apk 
+        run: flutter build apk
 
-      # 6. iOS 빌드 (macOS에서 실행 시)
+      # 6. iOS 빌드 (macOS에서만 실행)
       - name: Build iOS app
+        if: runner.os == 'macOS'  # macOS에서만 실행
         run: flutter build ios
