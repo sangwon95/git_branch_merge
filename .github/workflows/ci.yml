@@ -1,0 +1,44 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # 사용할 운영체제 (Ubuntu 기반 사용)
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 리포지토리 코드 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 2. Flutter 설치
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.0.0'  # 원하는 Flutter 버전 입력
+
+      # 3. 의존성 설치
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4. Flutter 테스트 실행
+      - name: Run tests
+        run: flutter test
+
+      # 5. Android 빌드 (APK)
+      - name: Build Android APK
+        run: flutter build apk --no-sound-null-safety
+
+      # 6. iOS 빌드 (macOS에서 실행 시)
+      - name: Build iOS app
+        run: flutter build ios --no-sound-null-safety
