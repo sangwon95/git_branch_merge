@@ -37,8 +37,8 @@ jobs:
 
       # 5. Android 빌드 (APK)
       - name: Build Android APK
-        run: flutter build apk --no-sound-null-safety
+        run: flutter build apk 
 
       # 6. iOS 빌드 (macOS에서 실행 시)
       - name: Build iOS app
-        run: flutter build ios --no-sound-null-safety
+        run: flutter build ios
