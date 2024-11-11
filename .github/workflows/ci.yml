@@ -8,12 +8,7 @@ on:
 
 jobs:
   build:
-    # macOS와 Ubuntu 환경을 분리하여 설정
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
 
     steps:
       # 1. 리포지토리 코드 체크아웃
@@ -40,5 +35,4 @@ jobs:
 
       # 6. iOS 빌드 (macOS에서만 실행)
       - name: Build iOS app
-        if: runner.os == 'macOS'  # macOS에서만 실행
         run: flutter build ios
