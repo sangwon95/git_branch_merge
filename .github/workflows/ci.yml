@@ -8,7 +8,11 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    # 두 가지 환경을 매트릭스로 정의하여 macOS와 Ubuntu에서 각각 실행
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
 
     steps:
       # 1. 리포지토리 코드 체크아웃
@@ -29,10 +33,12 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      # 5. Android 빌드 (APK)
+      # 5. Android 빌드 (Ubuntu에서만 실행)
       - name: Build Android APK
+        if: matrix.os == 'ubuntu-latest'
         run: flutter build apk
 
       # 6. iOS 빌드 (macOS에서만 실행)
       - name: Build iOS app
+        if: matrix.os == 'macos-latest'
         run: flutter build ios
